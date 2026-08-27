@@ -140,16 +140,17 @@
 </header>
 
 <section class="abstract">
-  <p><strong>Abstract.</strong> Content teams cannot review every page every week, so which pages
-  should they look at first? Using a 30,000-page portfolio sample with search performance,
-  freshness, and engagement signals, I built a ranked "refresh priority" model to answer this.
-  A simple, transparent rule (declining traffic + weak click-through) already reached
-  precision@50 of 0.74; a Random Forest trained under an honest, client-grouped validation split
-  reached 0.66 — lower than the rule — while the same model scored a misleading 1.0 under a naive
-  random split, exposing memorization rather than skill. The headline result is therefore not
-  "the model wins," but a validated, decision-support ranking with a clearly measured honesty gap.
-  This output is intended to prioritize a human editor's review queue, not to automate content
-  decisions.</p>
+  <p><strong>Abstract.</strong> Content teams cannot review every page every week — this is the
+  same triage problem behind FlyRank's own internal workflow flags (e.g. "Fix CTR," "Zombie
+  Page"), so which pages should a team look at first? Using a 30,000-page portfolio sample with
+  search performance, freshness, and engagement signals, I built a ranked "refresh priority"
+  model to answer this. A simple, transparent rule (declining traffic + weak click-through)
+  already reached precision@50 of 0.74; a Random Forest trained under an honest, client-grouped
+  validation split reached 0.66 — lower than the rule — while the same model scored a misleading
+  1.0 under a naive random split, exposing memorization rather than skill. The headline result is
+  therefore not "the model wins," but a validated, decision-support ranking with a clearly
+  measured honesty gap. This output is intended to prioritize a human editor's review queue, not
+  to automate content decisions.</p>
 </section>
 
 <h2>1. Introduction / Problem Statement</h2>
@@ -159,8 +160,11 @@ weekly capacity needs to know which pages are worth reviewing first — not whic
 worsening problem. Picking the wrong pages to review has a real cost: reviewing a healthy page
 wastes scarce time, and missing a genuinely declining high-traffic page lets visibility erode
 further before anyone notices.</p>
-<p>This paper builds and honestly evaluates a model that ranks pages for review, and is explicit
-throughout about what that ranking can and cannot support.</p>
+<p>This is the same triage problem behind FlyRank's own internal workflow labels (e.g. "Fix
+CTR," "Zombie Page") — flags that exist precisely because editors can't review everything.
+This paper builds a smaller, from-scratch version of that same idea: a transparent baseline
+rule plus a validated model, ranking pages for review rather than judging content quality in
+the abstract, and is explicit throughout about what that ranking can and cannot support.</p>
 
 <h2>2. Data</h2>
 <p>This analysis uses the FlyRank ML Internship starter dataset: 30,000 anonymized content-page
