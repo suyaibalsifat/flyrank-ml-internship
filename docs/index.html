@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which Pages Should We Fix First? A Refresh-Priority Model for Content Portfolios</title>
+<style>
+  :root {
+    --ink: #1c1c1c;
+    --muted: #6b6b6b;
+    --line: #e3e3e3;
+    --accent: #2f5d50;
+    --accent-bg: #eef4f2;
+    --warn-bg: #fdf3e7;
+    --warn-line: #e8c48a;
+    --code-bg: #f6f6f4;
+    --max: 720px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    color: var(--ink);
+    line-height: 1.68;
+    margin: 0;
+    background: #fdfcfa;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 64px 20px 110px; }
+  header.title-block { margin-bottom: 40px; }
+  .kicker {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  h1 { font-size: 2.15rem; line-height: 1.22; margin: 0 0 16px; font-weight: 700; letter-spacing: -0.01em; }
+  .byline {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--muted); font-size: 0.9rem; margin-bottom: 4px;
+  }
+  .byline a { color: var(--accent); }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-top: 56px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+  h3 { font-size: 1.05rem; margin-top: 28px; }
+  p { margin: 14px 0; }
+  .abstract {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 18px 22px;
+    border-radius: 4px;
+    font-size: 0.98rem;
+  }
+  .abstract p { margin: 0; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 18px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th { background: #fafafa; }
+  code, pre {
+    font-family: "SF Mono", Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+  }
+  code { padding: 2px 5px; font-size: 0.88rem; }
+  pre { padding: 14px; overflow-x: auto; font-size: 0.85rem; }
+  .caption { color: var(--muted); font-size: 0.88rem; margin-top: -6px; }
+  .callout {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-line);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 0.93rem;
+    margin: 16px 0;
+  }
+  .callout strong { display: block; margin-bottom: 4px; }
+  ol, ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  .rec {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 10px 0;
+  }
+  .rec .reason { color: var(--muted); font-size: 0.88rem; }
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  footer a { color: var(--accent); }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .metric {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+  }
+  .metric .num { font-size: 1.4rem; font-weight: 600; color: var(--accent); }
+  .metric .label { font-size: 0.8rem; color: var(--muted); }
+  @media (max-width: 600px) {
+    h1 { font-size: 1.5rem; }
+    .wrap { padding: 28px 16px 70px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="title-block">
+  <div class="kicker">Applied Search Intelligence · Research Note</div>
+  <h1>Which Pages Should We Fix First? A Refresh-Priority Model for Content Portfolios</h1>
+  <p class="byline">Suyaib Al Sifat · FlyRank ML Internship, Machine Learning Track · August 27, 2026</p>
+  <p class="byline">Repo: <a href="https://github.com/suyaibalsifat/flyrank-ml-internship">github.com/suyaibalsifat/flyrank-ml-internship</a></p>
+</header>
+
+<section class="abstract">
+  <p><strong>Abstract.</strong> Content teams cannot review every page every week, so which pages
+  should they look at first? Using a 30,000-page portfolio sample with search performance,
+  freshness, and engagement signals, I built a ranked "refresh priority" model to answer this.
+  A simple, transparent rule (declining traffic + weak click-through) already reached
+  precision@50 of 0.74; a Random Forest trained under an honest, client-grouped validation split
+  reached 0.66 — lower than the rule — while the same model scored a misleading 1.0 under a naive
+  random split, exposing memorization rather than skill. The headline result is therefore not
+  "the model wins," but a validated, decision-support ranking with a clearly measured honesty gap.
+  This output is intended to prioritize a human editor's review queue, not to automate content
+  decisions.</p>
+</section>
+
+<h2>1. Introduction / Problem Statement</h2>
+<p>Content portfolios grow faster than editorial teams can review them. An editor with limited
+weekly capacity needs to know which pages are worth reviewing first — not which pages are
+"good" or "bad" in the abstract, but which ones combine real search demand with a real,
+worsening problem. Picking the wrong pages to review has a real cost: reviewing a healthy page
+wastes scarce time, and missing a genuinely declining high-traffic page lets visibility erode
+further before anyone notices.</p>
+<p>This paper builds and honestly evaluates a model that ranks pages for review, and is explicit
+throughout about what that ranking can and cannot support.</p>
+
+<h2>2. Data</h2>
+<p>This analysis uses the FlyRank ML Internship starter dataset: 30,000 anonymized content-page
+records spanning multiple pseudonymized clients, with 90-day search performance (impressions,
+clicks, average position, CTR), engagement signals (scroll rate, engagement rate), freshness
+(days since last update, content age), and a computed trend direction (up / down / stable / flat /
+new) based on 30-day-vs-previous-30-day impression change.</p>
+<p>Fields deliberately excluded as model features: <code>trend_direction</code> and
+<code>trend_pct</code> — both are direct components of the label I built (see Methodology) and
+including them would be circular, label-derived leakage. <code>content_id</code> and
+<code>client_id</code> are used only for grouping and joins, never as predictive features. No
+client names, URLs, or raw search queries appear anywhere in this analysis, consistent with the
+dataset's public-safe design.</p>
+
+<h2>3. Methodology</h2>
+<h3>Label / proxy</h3>
+<p>I define <code>needs_review</code> = 1 if a page's <code>trend_direction</code> is "down"
+AND it has real demand (<code>impressions_90d</code> ≥ 100), else 0. This is an explicit proxy,
+not a true future outcome — it describes a currently-observed pattern in a single time window,
+not a validated forward-looking event. 43.8% of the full dataset carries this proxy label.</p>
+
+<h3>Features</h3>
+<p>Twenty numeric features — impressions, clicks, sessions, users, engagement metrics, CTR,
+average position, content age, freshness, and word/char count — all knowable at the moment of
+scoring, none derived from the label.</p>
+
+<h3>Baseline (Week 4)</h3>
+<p>A transparent, hand-written rule: flag a page if it is declining with real demand, or visible
+but under-capturing clicks for its position (CTR &lt; 0.5 at impressions_90d ≥ 500, position
+1–20). Score = impressions_90d × (number of flags triggered), so high-traffic flagged pages rank
+first. Two signals were checked before building this rule:</p>
+<table>
+<tr><th>Signal</th><th>Verdict</th><th>Evidence</th></tr>
+<tr><td>Staleness (days_since_update ≥ 180) → decline rate</td><td>MIXED</td>
+<td>Stale pages actually declined slightly LESS (47.1%, n=174) than fresh pages (54.2%,
+n=29,826) — opposite of the assumed direction, but the stale group was too small to trust.
+Dropped from the rule.</td></tr>
+<tr><td>Low CTR on visible pages → decline rate</td><td>CONFIRMED</td>
+<td>Low-CTR visible pages declined more (62.7%, n=9,759) than higher-CTR visible pages (47.5%,
+n=2,264). Kept in the rule.</td></tr>
+</table>
+
+<h3>Model (Week 5)</h3>
+<p>Logistic Regression and Random Forest, chosen because the task is a "yes/no with an observed
+proxy label" problem best started with a readable model and compared against a stronger one.</p>
+
+<h3>Validation design</h3>
+<p>All model results are reported under a <strong>client-grouped split</strong> (GroupShuffleSplit
+by client_id, 75/25), not a random row split. Pages from the same client can share structural
+similarities that let a model "memorize" a client rather than generalize — the grouped split
+tests performance on clients the model has never seen, which is the honest test for real
+deployment on a new client. Zero client overlap between train and test was confirmed
+programmatically.</p>
+
+<h3>Leakage audit</h3>
+<p>I tested the model with and without <code>impressions_90d</code> (the feature most entangled
+with the label's threshold condition): precision@50 was identical (0.66) both ways, confirming it
+is not silently leaking the label. No product-decision flags exist in this dataset to accidentally
+include. All features are current-state measurements, not future-window aggregates.</p>
+
+<h3>Interpretability</h3>
+<p>Beyond built-in Random Forest feature importance, I ran a SHAP (SHapley Additive exPlanations)
+summary on a 200-row sample of the held-out test set to see not just which features the model
+leans on, but which direction each pushes a prediction. This is exploratory and descriptive —
+it explains the model's behavior, not a causal claim about what drives real-world content
+decline.</p>
+
+<h2>4. Results (vs. Baseline)</h2>
+<div class="metric-grid">
+  <div class="metric"><div class="num">0.74</div><div class="label">Baseline rule<br>precision@50</div></div>
+  <div class="metric"><div class="num">0.66</div><div class="label">Random Forest (honest split)<br>precision@50</div></div>
+  <div class="metric"><div class="num">1.0</div><div class="label">Random Forest (naive random split)<br>precision@50 — misleading</div></div>
+  <div class="metric"><div class="num">0.49</div><div class="label">Base rate<br>(needs_review proxy)</div></div>
+</div>
+
+<figure>
+  <img src="figures/precision_comparison.png" alt="Bar chart comparing precision@50 across baseline rule, logistic regression, random forest under grouped split, and random forest under a naive random split, with a dashed line marking the base rate of 0.49" style="width:100%; border-radius:6px; border:1px solid var(--line);">
+  <p class="caption">Precision@50 across methods, held-out test set, base rate marked at 0.49. The rightmost bar (random split) is shown for contrast only — it is the leaked, non-representative number.</p>
+</figure>
+
+<figure>
+  <img src="figures/roc_curve.png" alt="ROC curve comparing Logistic Regression and Random Forest on the client-grouped test split" style="width:100%; max-width:480px; display:block; margin:0 auto; border-radius:6px; border:1px solid var(--line);">
+  <p class="caption">ROC curve, client-grouped test split. Both models separate the classes meaningfully better than chance (AUC 0.815 each) — this is a different, threshold-independent view from precision@50 above, and the two together avoid over-indexing on a single number.</p>
+</figure>
+
+<table>
+<tr><th>Method</th><th>Split</th><th>Precision@50</th><th>ROC-AUC</th></tr>
+<tr><td>Baseline rule</td><td>Grouped (honest)</td><td>0.74</td><td>—</td></tr>
+<tr><td>Logistic Regression</td><td>Grouped (honest)</td><td>0.90</td><td>0.815</td></tr>
+<tr><td>Random Forest</td><td>Grouped (honest)</td><td>0.66</td><td>0.815</td></tr>
+<tr><td>Random Forest</td><td>Random (naive)</td><td>1.0</td><td>—</td></tr>
+</table>
+<p class="caption">Same test rows, same metric, computed in the same notebook run as the baseline.</p>
+
+<figure>
+  <img src="figures/confusion_matrix.png" alt="Confusion matrix for Random Forest at the top-50 review capacity threshold: 33 true positives, 17 false positives, 2785 false negatives, 2910 true negatives" style="width:100%; max-width:420px; display:block; margin:0 auto; border-radius:6px; border:1px solid var(--line);">
+  <p class="caption">Confusion matrix at the top-50 review-capacity cutoff, Random Forest, honest split. Read this as a triage snapshot, not a general classifier score: with only 50 review slots against 2,818 true positives in the test set, a large false-negative count is expected by construction — it reflects the editor's capacity limit, not a failure to detect declining pages. What matters for this use case is that only 17 of the 50 reviewed slots were false positives (66% precision@50), not overall recall.</p>
+</figure>
+
+<div class="callout">
+  <strong>The validation-gap finding.</strong>
+  Under a naive random split, Random Forest scored a perfect 1.0 — an illusion caused by rows
+  from the same client appearing in both train and test, letting the model partly memorize
+  client-level patterns. Switching to a client-grouped split (the honest test on unseen clients)
+  dropped that score to 0.66, with the SAME base rate in both test sets (~0.49) — ruling out an
+  easier test set as the explanation. The random-split number was not a real result.
+</div>
+
+<h3>Error interpretation</h3>
+<p>The baseline rule outperforming Random Forest at precision@50 (0.74 vs 0.66) despite the
+model's higher ROC-AUC (0.815) is not a bug — it's because the baseline's core condition
+(declining + real demand) is nearly identical to the label definition itself, making it an
+unusually strong baseline to beat.</p>
+
+<figure>
+  <img src="figures/feature_importance.png" alt="Horizontal bar chart of Random Forest feature importances, led by impressions_90d and days_with_impressions" style="width:100%; border-radius:6px; border:1px solid var(--line);">
+  <p class="caption">Random Forest feature importance. impressions_90d, days_with_impressions, and avg_position lead — plausible visibility signals, not one dominant feature, which argues against hidden leakage.</p>
+</figure>
+
+<figure>
+  <img src="figures/shap_summary.png" alt="SHAP summary plot showing per-feature impact direction and magnitude on the model's predictions, sampled from 200 held-out test rows" style="width:100%; border-radius:6px; border:1px solid var(--line);">
+  <p class="caption">SHAP summary, 200-row sample from the held-out test set. Unlike the importance bars above, this shows DIRECTION as well as magnitude: for example, higher impressions_90d values (red) push predictions toward "needs review," consistent with the plain-language rule this model is meant to support rather than replace. This is exploratory interpretability, not a causal claim — SHAP explains what the model used, not what drives real-world decline.</p>
+</figure>
+
+<h2>5. Limitations &amp; Honest Framing</h2>
+<ul>
+<li><strong>Proxy label, not a true outcome.</strong> "needs_review" describes the CURRENT window,
+not a validated future decline. A stronger version would define the label on a strictly future
+window (e.g., "declines further over the next 30 days").</li>
+<li><strong>Baseline and label overlap.</strong> Because the rule and the label share a condition,
+the baseline-vs-model comparison here is a weaker test than it looks; a truly independent
+baseline would need to avoid reusing the label's own logic.</li>
+<li><strong>Single dataset snapshot.</strong> Results reflect one dataset export at one point in
+time across a limited set of pseudonymized clients — not validated on a live, ongoing feed.</li>
+<li><strong>No causal claims.</strong> This is observational, cross-sectional analysis. Nothing
+here shows that refreshing a flagged page *causes* traffic recovery — that requires a controlled
+experiment.</li>
+<li><strong>Model/rule disagreement.</strong> In the Week-7 action queue, 19 pages scored ≥0.90 by
+the model but were excluded from the actionable list because the stricter rule-based reason code
+labeled them "monitor" — a reviewer should know this cutoff exists.</li>
+</ul>
+
+<h2>6. Ranked Recommendations</h2>
+<p>All claims below are <strong>observed, directional, and decision-support only</strong> — a
+priority queue for a human reviewer, never an automated action.</p>
+
+<div class="rec">
+  <strong>1. Refresh pages with the "declining_and_low_ctr" reason code first.</strong>
+  <div class="reason">Why: this is the double-signal case — both a worsening trend and clicks
+  well below what the page's search position should earn. Would be wrong if the underlying
+  decline is a temporary tracking issue or a topic-level seasonal dip rather than a lasting
+  problem.</div>
+</div>
+<div class="rec">
+  <strong>2. Treat pages with CTR near 0.00 despite real impressions as a data-quality check first,
+  not an automatic content edit.</strong>
+  <div class="reason">Why: several top-ranked pages showed exactly 0.00 CTR, which may reflect a
+  tracking gap rather than a genuine content problem.</div>
+</div>
+<div class="rec">
+  <strong>3. Route "ctr_review_candidate" pages (stable traffic, weak CTR) to snippet/metadata
+  review rather than full content rewrites.</strong>
+  <div class="reason">Why: these pages aren't declining — their problem is click capture at an
+  otherwise fine position, a narrower and cheaper fix.</div>
+</div>
+<div class="rec">
+  <strong>4. Re-check any page whose "decline" flag is borderline (CTR just under the 0.5
+  threshold) before committing review time.</strong>
+  <div class="reason">Why: threshold-adjacent cases are the most sensitive to small changes in
+  where the cutoff is drawn.</div>
+</div>
+
+<h3>What should never be automated</h3>
+<p>No automatic publishing, deletion, or rewriting of pages from this score alone, and no
+client-facing claim that the model "diagnosed" a page's problem — it flags candidates for a human
+to diagnose.</p>
+
+<h3>Monitoring / retrain triggers</h3>
+<ul>
+<li>Retrain if the random-vs-grouped-split precision gap reappears or widens on new data — that
+gap is the signal of memorization returning.</li>
+<li>Review if the base rate of the proxy label drifts materially from ~49%.</li>
+<li>Revisit the baseline if its overlap with the label definition keeps making it an artificially
+strong comparison point.</li>
+</ul>
+
+<h2>7. Reproducibility</h2>
+<p>All notebooks referenced in this paper are committed in this repository under
+<code>work/notebooks/</code>: <code>w01_research_question.ipynb</code>,
+<code>w02_ml_task_framing.ipynb</code>, <code>w03_data_contract.ipynb</code>,
+<code>w04_baseline_score.ipynb</code>, <code>w05_model.ipynb</code>,
+<code>w06_validation_audit.ipynb</code>, <code>w07_action_playbook.ipynb</code>, and
+<code>capstone.ipynb</code>. Random seed <code>42</code> is fixed throughout for the
+train/test split and both models. Metrics receipts are committed as JSON files under
+<code>work/outputs/</code>.</p>
+<p>To rerun: clone the repo, <code>pip install -r requirements.txt</code>, then run any notebook
+top to bottom — each one regenerates its own outputs from the committed starter dataset.</p>
+
+<footer>
+  <p><strong>Acknowledgments &amp; Data Credit.</strong> Built on the FlyRank ML Internship
+  dataset. Learn more at <a href="https://flyrank.ai" target="_blank" rel="noopener">flyrank.ai</a>.</p>
+</footer>
+
+</div>
+</body>
+</html>
